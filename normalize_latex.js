@@ -113,10 +113,10 @@ function normalizeLatex(inputLine) {
     }
 }
 
-function normalizeBatch(batch, len) {
-    var results = new Array(len);
+function normalizeBatch(batch) {
+    var results = new Array(batch.length);
     
-    for (var i = 0; i < len; i++) {
+    for (var i = 0; i < batch.length; i++) {
         try {
             results[i] = normalizeLatex(batch[i]);
         } catch (e) {

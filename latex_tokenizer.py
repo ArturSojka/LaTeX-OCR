@@ -73,14 +73,15 @@ class LatexTokenizer:
     def filter_dataset(self, dataset:Dataset):
         return dataset.filter(self.validate_formulas, batched=True, batch_size=5000)
     
+    def normalize_batch(self,batch):
+        batch = batch['latex_formula']
+        normalized = self.ctx.call("normalizeBatch", [self._clean_formula(f) for f in batch])
+        return {'latex_formula':normalized}
+    
     def split_formulas(self, formulas: list[str]) -> list[list[str]]:
         return self.ctx.call("splitFormulas", [self._clean_formula(f) for f in formulas])
     
     def encode_batch(self, batch):
-        """
-        Encode text to token IDs with optional padding/truncation
-        Returns dict with 'input_ids' and 'attention_mask'
-        """
         batch = batch['latex_formula']
         
         tokens = []
